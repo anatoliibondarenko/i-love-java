@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
 public class GuessNumber {
 
     public static final BufferedReader READER = new BufferedReader(new InputStreamReader(System.in));
@@ -19,6 +18,5 @@ public class GuessNumber {
         } while (Integer.parseInt(READER.readLine()) != hiddenNumber);
 
         System.out.println("You guessed it.");
-        }
     }
-
+}
