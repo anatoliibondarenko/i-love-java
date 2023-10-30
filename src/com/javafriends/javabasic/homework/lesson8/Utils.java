@@ -23,4 +23,10 @@ public class Utils {
             array[i] = (int) (Math.random() * (maxValue - minValue) + minValue);
         }
     }
+
+    public static void fillArrayByRandomValues(double[] array) {
+        for (int i = 0; i < array.length; i++) {
+            array[i] = Math.random();
+        }
+    }
 }
