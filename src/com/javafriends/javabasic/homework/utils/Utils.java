@@ -34,6 +34,12 @@ public class Utils {
         return number;
     }
 
+    public static int[] getArray(int size, int minValue, int maxValue) {
+        int[] array = new int[size];
+        fillArrayByRandomValues(array, minValue, maxValue + 1);
+        return array;
+    }
+
     public static void fillArrayByRandomValues(int[] array, int minValue, int maxValue) {
         for (int i = 0; i < array.length; i++) {
             array[i] = (int) (Math.random() * (maxValue - minValue) + minValue);

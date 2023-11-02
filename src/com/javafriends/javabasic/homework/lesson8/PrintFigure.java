@@ -17,7 +17,7 @@ public class PrintFigure {
 
     private static void printTriangle(int sideOfTriangle, char symbol) {
         for (int i = 0; i < sideOfTriangle; i++) {
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j <= i; j++) {
                 System.out.print(symbol + "  ");
             }
             System.out.println();
