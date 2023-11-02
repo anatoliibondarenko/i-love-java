@@ -13,7 +13,10 @@ public class NumberOfMatches {
         int maxValueInTheLottery = getIntNumber("Input max value (>= 1) in the lottery", 1);
 
         int[] hiddenNumbers = getArray(numberOfNumbersInTheLottery, minValueInTheLottery, maxValueInTheLottery);
+        Arrays.sort(hiddenNumbers);
+
         int[] guessedNumbers = inputArray(numberOfNumbersInTheLottery, minValueInTheLottery, maxValueInTheLottery);
+        Arrays.sort(guessedNumbers);
 
         System.out.println("Hidden numbers:  " + Arrays.toString(hiddenNumbers));
         System.out.println("Entered numbers: " + Arrays.toString(guessedNumbers));
