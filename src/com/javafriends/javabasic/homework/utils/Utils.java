@@ -21,7 +21,7 @@ public class Utils {
     public static int getIntNumber(String inputMessage, int minValue) {
         int number;
         do {
-            number = getIntNumber(inputMessage);
+            number = getIntNumber(inputMessage + ". " + "Value must be more than " + minValue);
         } while (number < minValue);
         return number;
     }
