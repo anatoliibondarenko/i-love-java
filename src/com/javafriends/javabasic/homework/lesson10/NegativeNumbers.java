@@ -18,16 +18,6 @@ public class NegativeNumbers {
         printPositionNegativeNumbers(array);
     }
 
-    private static void printPositionNegativeNumbers(int[][] array) {
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[0].length; j++) {
-                if (array[i][j] < 0) {
-                    System.out.println("[" + i + ", " + j + "] = " + array[i][j]);
-                }
-            }
-        }
-    }
-
     private static int[][] createAndFillArray(int rows, int columns, int minValue, int maxValue) {
         int[][] array = new int[rows][columns];
         for (int i = 0; i < array.length; i++) {
@@ -50,6 +40,16 @@ public class NegativeNumbers {
                 System.out.print(element + " ");
             }
             System.out.println();
+        }
+    }
+
+    private static void printPositionNegativeNumbers(int[][] array) {
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[0].length; j++) {
+                if (array[i][j] < 0) {
+                    System.out.println("[" + i + ", " + j + "] = " + array[i][j]);
+                }
+            }
         }
     }
 }
