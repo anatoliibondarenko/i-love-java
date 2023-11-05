@@ -5,8 +5,8 @@ public class PasswordGenerator {
     private int length;
 
     public PasswordGenerator(int length) {
-        if (length < 3) {
-            throw new IllegalArgumentException("Password's length must be more than 3.");
+        if (length < 4) {
+            throw new IllegalArgumentException("Password's length must be more than 4.");
         }
         this.length = length;
     }
@@ -30,20 +30,23 @@ public class PasswordGenerator {
     }
 
     private boolean isValidPassword(char[] password) {
-        boolean haveLetter = false;
+        boolean haveLowerCaseLetter = false;
+        boolean haveUpperCaseLetter = false;
         boolean haveDigit = false;
         boolean haveUnderscore = false;
 
         for (char c : password) {
-            if (Character.isLetter(c)) {
-                haveLetter = true;
+            if (Character.isLowerCase(c)) {
+                haveLowerCaseLetter = true;
+            } else if (Character.isUpperCase(c)) {
+                haveUpperCaseLetter = true;
             } else if (Character.isDigit(c)) {
                 haveDigit = true;
             } else {
                 haveUnderscore = true;
             }
 
-            if (haveUnderscore && haveDigit && haveLetter) {
+            if (haveUnderscore && haveDigit && haveLowerCaseLetter && haveUpperCaseLetter) {
                 return true;
             }
         }

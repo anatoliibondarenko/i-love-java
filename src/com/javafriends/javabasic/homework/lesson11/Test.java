@@ -39,12 +39,8 @@ public class Test {
             System.out.println(passwordGenerator2.nextPassword());
             System.out.println();
 
-            PasswordGenerator passwordGenerator3 = new PasswordGenerator(2);
-            System.out.println(passwordGenerator3.nextPassword());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
-
-
     }
 }
