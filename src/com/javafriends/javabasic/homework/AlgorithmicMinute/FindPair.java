@@ -21,60 +21,10 @@ public class FindPair {
         System.out.println("Work time is " + (timeEnd - timeStart) / 1000 + "s. Find - " + list.size() + " pairs.");
         System.out.println(list);
 
-        timeStart = System.currentTimeMillis();
-        list = seekPairInArrayUsingSort(array, sumPair);
-        timeEnd = System.currentTimeMillis();
-        System.out.println("Work time is " + (timeEnd - timeStart) / 1000 + "s. Find - " + list.size() + " pairs.");
-        System.out.println(list);
+
 
     }
 
-    private static List<Pair> seekPairInArrayUsingSort(int[] array, int sumPair) {
-        // TODO ??? It does not find all values. If the range contains multiple elements equal to the specified object,
-        //  there is no guarantee which one will be found.
-
-
-
-        int[][] arrayRememberPos = new int[array.length][2];
-        for (int i = 0; i < array.length; i++) {
-            arrayRememberPos[i][0] = array[i];
-            arrayRememberPos[i][1] = i;
-        }
-
-        // Arrays.sort(arrayRememberPos, Comparator.comparingInt(o -> o[0]));
-
-        Comparator<int[]> comparator = (o1, o2) -> {
-            if (o1[0] > o2[0]) {
-                return 1;
-            } else if (o1[0] < o2[0]) {
-                return -1;
-            } else return Integer.compare(o1[1], o2[1]);
-        };
-
-        Comparator<int[]> comparator1 = Comparator.comparingInt(o -> o[0]);
-
-        Arrays.sort(arrayRememberPos, comparator);
-        List<Pair> listPairs = new ArrayList<>();
-        int index2;
-        for (int i = 0; i < arrayRememberPos.length; i++) {
-            int[] seek = {sumPair - arrayRememberPos[i][0], 1};
-            int start = i + 1;
-
-            while ( (index2 = Arrays.binarySearch(arrayRememberPos, start, arrayRememberPos.length, seek, comparator1)) > 0) {
-
-                listPairs.add(new Pair(arrayRememberPos[i][0], arrayRememberPos[i][1],
-                        arrayRememberPos[index2][0], arrayRememberPos[index2][1]));
-                if (index2 != (arrayRememberPos.length - 1)) {
-                    start = index2 + 1;
-                } else {
-                    break;
-                }
-            }
-
-        }
-
-        return listPairs;
-    }
 
     private static List<Pair> seekPairInArrayBrutForce(int[] array, int sumPair) {
         List<Pair> listPairs = new ArrayList<>();
