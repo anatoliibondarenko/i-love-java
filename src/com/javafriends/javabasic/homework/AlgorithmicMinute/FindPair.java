@@ -9,51 +9,110 @@ import static com.javafriends.javabasic.homework.utils.Utils.getIntNumber;
 public class FindPair {
 
     public static void main(String[] args) {
-        int sizeArray = 10_000_000;
-        int minElementOfArray = getIntNumber("Input min value of the array");
-        int maxElementOfArray = getIntNumber("Input max value of the array");
-        int sumPair = Utils.getIntNumber("Input number as sum of two elements of the array");
+        findPairWithUserInputs();
+        analyzePerformance();
+    }
+
+    private static void findPairWithUserInputs() {
+        int sizeArray = Utils.getIntNumber("Input a size of the array (e.g. - 1000 )", 1);
+        int minElementOfArray = getIntNumber("Input min value of the array (e.g. - 0 )");
+        int maxElementOfArray = getIntNumber("Input max value of the array (e.g. - 1000 )");
+        int sumPair = Utils.getIntNumber("Input number as sum of two elements of the array (e.g. - 1000)");
 
         int[] array = Utils.getArray(sizeArray, minElementOfArray, maxElementOfArray);
+        System.out.println(Arrays.toString(array));
 
-  //      System.out.println(Arrays.toString(array));
+        doBruteForce(sumPair, array);
+        doHashMap(sumPair, array);
+    }
+
+    private static void doHashMap(int sumPair, int[] array) {
         long timeStart = System.currentTimeMillis();
         List<Pair> list = seekPairsUsingHashMap(array, sumPair);
         long timeEnd = System.currentTimeMillis();
-        System.out.println("Work time is " + (timeEnd - timeStart) + "ms. Find - " + list.size() + " pairs.");
-     //   System.out.println(list);
-
-
+        printResult("seekPairsUsingHashMap", (int) (timeEnd - timeStart), list);
     }
 
+    private static void doBruteForce(int sumPair, int[] array) {
+        long timeStart = System.currentTimeMillis();
+        List<Pair> list = seekPairInArrayBruteForce(array, sumPair);
+        long timeEnd = System.currentTimeMillis();
+        printResult("seekPairInArrayBruteForce", (int) (timeEnd - timeStart), list);
+    }
+
+    private static void printResult(String methodName, int timeWorking, List<Pair> list) {
+        System.out.println("Work time by " + methodName + " is - " + timeWorking + " ms. Find - " + list.size() + " pairs.");
+        System.out.println(list);
+    }
+
+    private static List<Pair> seekPairInArrayBruteForce(int[] array, int sumPair) {
+        List<Pair> listPairs = new ArrayList<>();
+        for (int i = 0; i < array.length - 1; i++) {
+            for (int j = i + 1; j < array.length; j++) {
+                if (array[i] + array[j] == sumPair) {
+                    listPairs.add(new Pair(array[i], i, array[j], j));
+                }
+            }
+        }
+        return listPairs;
+    }
 
     private static List<Pair> seekPairsUsingHashMap(int[] array, int sumPair) {
         List<Pair> listPairs = new ArrayList<>();
-        Map<Integer, List<Integer>> map = new HashMap<>();
+        Map<Integer, List<Integer>> mapArrayGroupByValue = new HashMap<>();
 
-        int sumComplement;
-        List<Integer> list;
+        int seekingComplement;
+        List<Integer> indexesEqualsValues;
         for (int i = 0; i < array.length; i++) {
-            sumComplement = sumPair - array[i];
-            if (map.containsKey(sumComplement)) {
-                list = map.get(sumComplement);
-                for (Integer index : list) {
-                    listPairs.add(new Pair(sumComplement, index, array[i], i));
+            seekingComplement = sumPair - array[i];
+            if (mapArrayGroupByValue.containsKey(seekingComplement)) {
+                indexesEqualsValues = mapArrayGroupByValue.get(seekingComplement);
+                for (Integer index : indexesEqualsValues) {
+                    listPairs.add(new Pair(seekingComplement, index, array[i], i));
                 }
-                list.add(i);
-                map.put(sumComplement, list);
             }
 
-            if (map.containsKey(array[i])) {
-                list = map.get(array[i]);
+            if (mapArrayGroupByValue.containsKey(array[i])) {
+                indexesEqualsValues = mapArrayGroupByValue.get(array[i]);
             } else {
-                list = new ArrayList<>();
+                indexesEqualsValues = new ArrayList<>();
             }
-            list.add(i);
-            map.put(array[i], list);
+            indexesEqualsValues.add(i);
+            mapArrayGroupByValue.put(array[i], indexesEqualsValues);
         }
-
         return listPairs;
+    }
+
+    private static void analyzePerformance() {
+        int timeYouCouldWait = getIntNumber("Input approximate time in seconds " +
+                "that you could wait for working program (e.g. - 30)");
+
+        int sizeArraysTesting = 2;
+        int[] arrayTesting;
+        int counter = 1;
+
+        long startTest;
+        long endTest;
+        int timeBruteForce;
+        int timeHashMap;
+
+        do {
+            arrayTesting = Utils.getArray(sizeArraysTesting, 0, sizeArraysTesting);
+
+            startTest = System.currentTimeMillis();
+            seekPairInArrayBruteForce(arrayTesting, sizeArraysTesting);
+            endTest = System.currentTimeMillis();
+            timeBruteForce = (int) (endTest - startTest);
+
+            startTest = System.currentTimeMillis();
+            seekPairsUsingHashMap(arrayTesting, sizeArraysTesting);
+            endTest = System.currentTimeMillis();
+            timeHashMap= (int) (endTest - startTest);
+
+            System.out.printf("Size array - 2^%d: brute force - %d ms, hashmap - %d ms.\n", counter++, timeBruteForce, timeHashMap);
+            sizeArraysTesting *= 2;
+           }
+        while (timeBruteForce < timeYouCouldWait * 1000);
     }
 
     private static class Pair {

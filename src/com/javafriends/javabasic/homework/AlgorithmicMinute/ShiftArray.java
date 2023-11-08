@@ -1,6 +1,7 @@
 package com.javafriends.javabasic.homework.AlgorithmicMinute;
 
 import com.javafriends.javabasic.homework.utils.Utils;
+
 import java.util.Arrays;
 
 public class ShiftArray {
