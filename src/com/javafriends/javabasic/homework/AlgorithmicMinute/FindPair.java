@@ -4,37 +4,55 @@ import com.javafriends.javabasic.homework.utils.Utils;
 
 import java.util.*;
 
+import static com.javafriends.javabasic.homework.utils.Utils.getIntNumber;
+
 public class FindPair {
 
     public static void main(String[] args) {
-        int sizeArray = 20;
-        int minElementOfArray = 0;
-        int maxElementOfArray = sizeArray / 2;
+        int sizeArray = 10_000_000;
+        int minElementOfArray = getIntNumber("Input min value of the array");
+        int maxElementOfArray = getIntNumber("Input max value of the array");
         int sumPair = Utils.getIntNumber("Input number as sum of two elements of the array");
 
         int[] array = Utils.getArray(sizeArray, minElementOfArray, maxElementOfArray);
 
-        System.out.println(Arrays.toString(array));
+  //      System.out.println(Arrays.toString(array));
         long timeStart = System.currentTimeMillis();
-        List<Pair> list = seekPairInArrayBrutForce(array, sumPair);
+        List<Pair> list = seekPairsUsingHashMap(array, sumPair);
         long timeEnd = System.currentTimeMillis();
-        System.out.println("Work time is " + (timeEnd - timeStart) / 1000 + "s. Find - " + list.size() + " pairs.");
-        System.out.println(list);
-
+        System.out.println("Work time is " + (timeEnd - timeStart) + "ms. Find - " + list.size() + " pairs.");
+     //   System.out.println(list);
 
 
     }
 
 
-    private static List<Pair> seekPairInArrayBrutForce(int[] array, int sumPair) {
+    private static List<Pair> seekPairsUsingHashMap(int[] array, int sumPair) {
         List<Pair> listPairs = new ArrayList<>();
-        for (int i = 0; i < array.length - 1; i++) {
-            for (int j = i + 1; j < array.length; j++) {
-                if (array[i] + array[j] == sumPair) {
-                    listPairs.add(new Pair(array[i], i, array[j], j));
+        Map<Integer, List<Integer>> map = new HashMap<>();
+
+        int sumComplement;
+        List<Integer> list;
+        for (int i = 0; i < array.length; i++) {
+            sumComplement = sumPair - array[i];
+            if (map.containsKey(sumComplement)) {
+                list = map.get(sumComplement);
+                for (Integer index : list) {
+                    listPairs.add(new Pair(sumComplement, index, array[i], i));
                 }
+                list.add(i);
+                map.put(sumComplement, list);
             }
+
+            if (map.containsKey(array[i])) {
+                list = map.get(array[i]);
+            } else {
+                list = new ArrayList<>();
+            }
+            list.add(i);
+            map.put(array[i], list);
         }
+
         return listPairs;
     }
 
