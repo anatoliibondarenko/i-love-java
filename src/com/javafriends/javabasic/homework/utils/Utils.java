@@ -1,6 +1,7 @@
 package com.javafriends.javabasic.homework.utils;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Utils {
@@ -51,4 +52,10 @@ public class Utils {
             array[i] = Math.random();
         }
     }
+
+    public static String getString(String inputMessage) throws IOException {
+        System.out.println(inputMessage);
+        return READER.readLine();
+    }
+
 }
